@@ -23,6 +23,8 @@ jobs:
         fetch-depth: 0
     - name: Merge tag to local main
       run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git merge ${{ github.event.release.tag_name }}
     - name: Push merge to repository's main branch
       uses: ad-m/github-push-action@master
