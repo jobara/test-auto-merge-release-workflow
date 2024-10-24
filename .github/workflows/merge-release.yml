@@ -39,7 +39,7 @@ jobs:
         fetch-tags: true
         fetch-depth: 0
     - name: Update git user
-      if: ${{ inputs }}
+      if: ${{ github.event_name == 'workflow_dispatch' }}
       run: |
         read name email < <(gh api \
           -H "Accept: application/vnd.github+json" \
