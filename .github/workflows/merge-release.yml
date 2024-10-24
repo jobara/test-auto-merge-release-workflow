@@ -32,7 +32,7 @@ jobs:
     - name: Determine branch
       run: |
         echo 'BRANCH='${{ inputs.branch || 'main' }} >> $GITHUB_ENV
-    - name: Checkout ${{ env.BRANCH }} branch locally
+    - name: Checkout "${{ env.BRANCH }}" branch locally
       uses: actions/checkout@v4
       with:
         ref: ${{ env.BRANCH }}
@@ -53,12 +53,12 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ACCOUNT_ID: ${{ github.actor_id }}
 
-    - name: Merge tag to local ${{ env.BRANCH }}
+    - name: Merge tag to local "${{ env.BRANCH }}" branch
       run: |
           git config --local user.email "$GIT_USER_EMAIL"
           git config --local user.name "$GIT_USER_NAME"
           git merge ${{ inputs.tag || github.event.release.tag_name }}
-    - name: Push merge to repository's ${{ env.BRANCH }} branch
+    - name: Push merge to repository's "${{ env.BRANCH }}" branch
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
