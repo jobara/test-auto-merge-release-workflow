@@ -54,6 +54,9 @@ jobs:
 
         echo $user
 
+        name=$(echo $user | jq '.name')
+        email=$(echo $user | jq '.email')
+
         echo $user | jq '.name';
         echo $user | jq '.email';
 
