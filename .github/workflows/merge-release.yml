@@ -1,5 +1,8 @@
 name: Merge Release
 
+env:
+  BRANCH: main
+
 on:
   release:
     types: [released]
@@ -9,7 +12,7 @@ on:
         description: 'Branch to merge into'
         required: false
         type: string
-        default: main
+        default: ${{ env.BRANCH }}
       tag:
         description: 'Tag to merge'
         required: true
@@ -21,18 +24,19 @@ jobs:
     env:
       GIT_USER_EMAIL: "github-actions[bot]@users.noreply.github.com"
       GIT_USER_NAME: "github-actions[bot]"
+      BRANCH: ${{ input.branch || env.BRANCH }}
     permissions:
       contents: write
     strategy:
       fail-fast: true
 
-    name: Merge release to ${{ inputs.branch }}
+    name: Merge release to ${{ env.branch }}
 
     steps:
-    - name: Checkout ${{ inputs.branch }} branch locally
+    - name: Checkout ${{ env.branch }} branch locally
       uses: actions/checkout@v4
       with:
-        ref: ${{ inputs.branch }}
+        ref: ${{ env.branch }}
         fetch-tags: true
         fetch-depth: 0
     - name: Update git user
@@ -50,15 +54,15 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ACCOUNT_ID: ${{ github.actor_id }}
 
-    - name: Merge tag to local ${{ inputs.branch }}
+    - name: Merge tag to local ${{ env.branch }}
       run: |
           git config --local user.email "$GIT_USER_EMAIL"
           git config --local user.name "$GIT_USER_NAME"
           git merge ${{ inputs.tag || github.event.release.tag_name }}
-    - name: Push merge to repository's ${{ inputs.branch }} branch
+    - name: Push merge to repository's ${{ env.branch }} branch
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ inputs.branch }}
+        branch: ${{ env.branch }}
 
 
