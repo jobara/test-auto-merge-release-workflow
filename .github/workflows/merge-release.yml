@@ -31,8 +31,7 @@ jobs:
     steps:
     - name: Determine branch
       run: |
-        inputBranch = ${{ inputs.branch }}
-        echo 'BRANCH='${inputBranch:-main} >> $GITHUB_ENV
+        echo 'BRANCH='${{ inputs.branch || 'main' }} >> $GITHUB_ENV
     - name: Checkout ${{ env.BRANCH }} branch locally
       uses: actions/checkout@v4
       with:
