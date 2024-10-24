@@ -39,7 +39,7 @@ jobs:
         fetch-tags: true
         fetch-depth: 0
     - name: Update git user
-      if: ${{ github.actor_id }}
+      if: ${{ inputs }}
       run: |
         read name email < <(gh api \
           -H "Accept: application/vnd.github+json" \
