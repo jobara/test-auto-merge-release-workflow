@@ -41,11 +41,11 @@ jobs:
     - name: Update git user
       if: ${{ github.event_name == 'workflow_dispatch' }}
       run: |
-        read name email < <(gh api \
+        read email name < <(gh api \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /user/$ACCOUNT_ID \
-          --jq '.name, .email');
+          --jq '.email, .name');
 
         echo 'GIT_USER_NAME='$name >> $GITHUB_ENV
         echo 'GIT_USER_EMAIL='$email >> $GITHUB_ENV
